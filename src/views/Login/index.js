@@ -1,6 +1,7 @@
+import WebSDK from "@loginid/sdk";
 import { Wrapper, Input, Button, Image } from "./style";
 import { env } from "../../utils/env";
-import WebSDK from "@loginid/sdk";
+import { authorizeUser } from "../../services/api";
 
 const { baseUrl, webClientId } = env;
 
@@ -10,7 +11,8 @@ const sdk = new WebSDK(baseUrl, webClientId);
 const Login = function ({ username, handleUsername }) {
   const handleRegister = async () => {
     try {
-      const res = await sdk.registerWithFido2(username);
+      const { jwt } = await sdk.registerWithFido2(username);
+      await authorizeUser(jwt);
     } catch (e) {
       console.log(e);
       alert(e.message);
@@ -19,7 +21,8 @@ const Login = function ({ username, handleUsername }) {
 
   const handleLogin = async () => {
     try {
-      const res = await sdk.authenticateWithFido2(username);
+      const { jwt } = await sdk.authenticateWithFido2(username);
+      await authorizeUser(jwt);
     } catch (e) {
       console.log(e);
       alert(e.message);

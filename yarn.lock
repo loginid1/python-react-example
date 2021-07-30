@@ -1472,6 +1472,11 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^4.0.0"
 
+"@loginid/sdk@^0.9.8":
+  "integrity" "sha512-zD6M2kz6dF+OgPh48ONiTBUY5kRvwWZ8XHHN+f++Y+7m/17xBX559+d8zbtvrtenr0hy/z2LRHyuOXkP0wHSEA=="
+  "resolved" "https://registry.npmjs.org/@loginid/sdk/-/sdk-0.9.8.tgz"
+  "version" "0.9.8"
+
 "@nodelib/fs.scandir@2.1.4":
   "integrity" "sha512-33g3pMJk3bg5nXbL/+CY6I2eJDzZAni49PfJnL5fghPTggPvBd/pFNSgJsdAgWptuFu7qq/ERvOYFlhvsLTCKA=="
   "resolved" "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz"
@@ -6617,6 +6622,7 @@
     "jest-snapshot" "^26.6.2"
 
 "jest-resolve@*":
+  "integrity" "sha512-tRAz2bwraHufNp+CCmAD8ciyCpXCs1NQxB5EJAmtCFy6BN81loFEGWKzYu26Y62lAJJe4X4jg36Kf+NsQyiStQ=="
   "version" "26.6.0"
   dependencies:
     "@jest/types" "^26.6.0"

@@ -1,18 +1,22 @@
 import WebSDK from "@loginid/sdk";
-import { Wrapper, Input, Button, Image } from "./style";
+import { useHistory } from "react-router-dom";
+import { Wrapper, Input, Button, Image } from "../styles/";
 import { env } from "../../utils/env";
 import { authorizeUser } from "../../services/api";
 
 const { baseUrl, webClientId } = env;
 
-const logoUrl = "./imgs/loginid-logo.svg";
+const logoUrl = process.env.PUBLIC_URL + "/imgs/loginid-logo.svg";
 const sdk = new WebSDK(baseUrl, webClientId);
 
 const Login = function ({ username, handleUsername }) {
+  const history = useHistory();
+
   const handleRegister = async () => {
     try {
       const { jwt } = await sdk.registerWithFido2(username);
       await authorizeUser(jwt);
+      history.push("/dashboard");
     } catch (e) {
       console.log(e);
       alert(e.message);
@@ -23,6 +27,7 @@ const Login = function ({ username, handleUsername }) {
     try {
       const { jwt } = await sdk.authenticateWithFido2(username);
       await authorizeUser(jwt);
+      history.push("/dashboard");
     } catch (e) {
       console.log(e);
       alert(e.message);

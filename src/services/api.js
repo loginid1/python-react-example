@@ -1,4 +1,4 @@
-const request = async (url, options) => {
+const request = async (url, options = {}) => {
   const { method = "POST", headers = {}, body = {} } = options;
   try {
     const res = await fetch(url, {
@@ -7,10 +7,12 @@ const request = async (url, options) => {
         "Content-Type": "application/json",
         ...headers,
       },
-      body: JSON.stringify(body),
+      ...(method !== "GET" && { body: JSON.stringify(body) }),
     });
 
     if (!res.ok) throw res;
+
+    if (res.status === 204) return;
 
     return await res.json();
   } catch (e) {
@@ -20,4 +22,12 @@ const request = async (url, options) => {
 
 export const authorizeUser = async (jwt) => {
   return await request("/api/users", { body: { jwt } });
+};
+
+export const getUser = async () => {
+  return await request("/api/users", { method: "GET" });
+};
+
+export const logoutUser = async () => {
+  return await request("/api/logout");
 };

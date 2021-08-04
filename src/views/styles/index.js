@@ -39,3 +39,7 @@ export const Image = styled.img`
   max-width: 300px;
   margin-bottom: 3em;
 `;
+
+export const H2 = styled.h2`
+  margin-bottom: 3em;
+`;

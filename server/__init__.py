@@ -2,10 +2,12 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
 from server.api.users import UserResource
+from server.api.logout import LogoutResource
 
 def create_app():
     app = Flask(__name__)
     # change to True in production setting
+    app.config['JWT_TOKEN_LOCATION'] = ['cookies']
     app.config["JWT_COOKIE_SECURE"] = False
     app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
     app.config["JWT_COOKIE_CSRF_PROTECT"] = True
@@ -15,5 +17,6 @@ def create_app():
 
     api = Api(app)
     api.add_resource(UserResource, "/api/users")
+    api.add_resource(LogoutResource, "/api/logout")
 
     return app

@@ -1,0 +1,19 @@
+FROM python:3.9
+
+WORKDIR /usr/src/app
+
+ENV FLASK_APP=server
+ENV FLASK_ENV=development
+ENV FLASK_RUN_HOST=0.0.0.0
+COPY requirements.txt ./
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN mkdir server
+COPY ./server ./server/
+COPY app.py ./
+COPY .env ./
+
+EXPOSE 5000
+
+CMD ["python", "-m", "flask", "run"]

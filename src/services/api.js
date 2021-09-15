@@ -10,11 +10,15 @@ const request = async (url, options = {}) => {
       ...(method !== "GET" && { body: JSON.stringify(body) }),
     });
 
-    if (!res.ok) throw res;
-
     if (res.status === 204) return;
 
-    return await res.json();
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+
+    return await data;
   } catch (e) {
     throw e;
   }
@@ -30,4 +34,8 @@ export const getUser = async () => {
 
 export const logoutUser = async () => {
   return await request("/api/logout");
+};
+
+export const createServiceToken = async (type, username) => {
+  return await request("/api/tokens/create", { body: { type, username } });
 };

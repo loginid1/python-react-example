@@ -3,6 +3,7 @@ from flask_jwt_extended import JWTManager
 from flask_restful import Api
 from server.api.users import UserResource
 from server.api.logout import LogoutResource
+from server.api.loginid import TokensResource
 
 def create_app():
     app = Flask(__name__)
@@ -18,5 +19,6 @@ def create_app():
     api = Api(app)
     api.add_resource(UserResource, "/api/users")
     api.add_resource(LogoutResource, "/api/logout")
+    api.add_resource(TokensResource, "/api/tokens/create")
 
     return app

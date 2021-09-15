@@ -2,7 +2,7 @@ import WebSDK from "@loginid/sdk";
 import { useHistory } from "react-router-dom";
 import { Wrapper, Input, Button, Image } from "../styles/";
 import { env } from "../../utils/env";
-import { authorizeUser } from "../../services/api";
+import { authorizeUser, createServiceToken } from "../../services/api";
 
 const { baseUrl, webClientId } = env;
 
@@ -14,8 +14,17 @@ const Login = function ({ username, handleUsername }) {
 
   const handleRegister = async () => {
     try {
-      const { jwt } = await sdk.registerWithFido2(username);
+      const { service_token: serviceToken } = await createServiceToken(
+        "auth.register",
+        username
+      );
+
+      const { jwt } = await sdk.registerWithFido2(username, {
+        authorization_token: serviceToken,
+      });
+
       await authorizeUser(jwt);
+
       history.push("/dashboard");
     } catch (e) {
       console.log(e);
@@ -25,8 +34,17 @@ const Login = function ({ username, handleUsername }) {
 
   const handleLogin = async () => {
     try {
-      const { jwt } = await sdk.authenticateWithFido2(username);
+      const { service_token: serviceToken } = await createServiceToken(
+        "auth.login",
+        username
+      );
+
+      const { jwt } = await sdk.authenticateWithFido2(username, {
+        authorization_token: serviceToken,
+      });
+
       await authorizeUser(jwt);
+
       history.push("/dashboard");
     } catch (e) {
       console.log(e);

@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./views/Login/";
 import Dashboard from "./views/Dashboard/";
+import OneTime from "./views/OneTime/";
+import Authorize from "./views/Authorize/";
 import Private from "./components/PrivateRoute/";
 
 function App() {
@@ -15,6 +17,12 @@ function App() {
             username={username}
             handleUsername={(e) => setUsername(e.target.value)}
           />
+        </Route>
+        <Route path="/push" exact>
+          <OneTime />
+        </Route>
+        <Route path="/authorize" exact>
+          <Authorize />
         </Route>
         <Private path="/dashboard">
           <Dashboard />

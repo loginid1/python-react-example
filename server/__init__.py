@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
-from server.api.users import UserResource
+from server.api.users import UserResource, TemporaryUser
 from server.api.logout import LogoutResource
 from server.api.loginid import loginid_blueprint
 
@@ -19,6 +19,7 @@ def create_app():
 
     api = Api(app)
     api.add_resource(UserResource, "/api/users")
+    api.add_resource(TemporaryUser, "/api/users/temporary")
     api.add_resource(LogoutResource, "/api/logout")
 
     return app

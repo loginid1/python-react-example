@@ -5,7 +5,6 @@ import * as uuid from "uuid";
 import { Wrapper, Button, H2, Input, Message } from "../styles/";
 import { env } from "../../utils/env";
 import {
-  createServiceToken,
   createTx,
   createTxServiceToken,
   logoutUser,

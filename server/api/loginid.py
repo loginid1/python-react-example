@@ -1,24 +1,30 @@
-from flask import Blueprint, request
+from flask import Blueprint
 from http import HTTPStatus
-from loginid import LoginID
-from server.helpers.api import json_response
+from loginid import LoginID, LoginIdManagement
+from server.helpers.api import json_response, default_json
 from server.config import (
     BASE_URL,
     WEB_CLIENT_ID,
+    MANAGEMENT_CLIENT_ID,
     PRIVATE_KEY
 )
 
-loginid = LoginID(WEB_CLIENT_ID, PRIVATE_KEY, BASE_URL)
-
 loginid_blueprint = Blueprint("loginid", __name__, url_prefix="/api")
+loginid = LoginID(WEB_CLIENT_ID, PRIVATE_KEY, BASE_URL)
+loginid_management = LoginIdManagement(
+    MANAGEMENT_CLIENT_ID,
+    PRIVATE_KEY,
+    BASE_URL
+)
 
 
 @loginid_blueprint.route("/token", methods=["POST"])
 def create_service_token():
-    payload = request.get_json()
-    username = payload["username"]
-    scope = payload.get("type", "")
-    tx_payload = payload.get("tx_payload", "")
+    username, scope, tx_payload = default_json(
+        "username",
+        "type",
+        "tx_payload"
+    )
 
     if tx_payload:
         service_token = loginid.generateTxAuthToken(tx_payload, username)
@@ -35,8 +41,7 @@ def create_service_token():
 
 @loginid_blueprint.route("/tx", methods=["POST"])
 def create_transaction():
-    payload = request.get_json()
-    tx_payload, username = payload["tx_payload"], payload["username"]
+    tx_payload, username = default_json("tx_payload", "username")
 
     err, tx_id = loginid.createTx(tx_payload, username)
     response = {}
@@ -52,8 +57,7 @@ def create_transaction():
 
 @loginid_blueprint.route("/tx/verify", methods=["POST"])
 def verify_tx():
-    payload = request.get_json()
-    tx_token, tx_payload = payload["jwt"], payload["tx_payload"]
+    tx_token, tx_payload = default_json("jwt", "tx_payload")
 
     err, is_valid = loginid.verifyTransaction(tx_token, tx_payload)
 
@@ -63,3 +67,57 @@ def verify_tx():
     response = {"is_valid": is_valid}
 
     return response, HTTPStatus.OK
+
+
+@loginid_blueprint.route("/codes/generate", methods=["POST"])
+def generate_code():
+    code_purpose, username = default_json("purpose", "username")
+
+    err, user_id = loginid_management.getUserId(username)
+    if type(err) is int:
+        return json_response(user_id, err)
+
+    err, code_response = loginid_management.generateCode(
+        user_id,
+        codeType="short",
+        codePurpose=code_purpose,
+        isAuthorized=False
+    )
+    if type(err) is int:
+        return json_response(user_id, err)
+
+    return json_response(code_response, HTTPStatus.OK)
+
+
+@loginid_blueprint.route("/codes/authorize", methods=["POST"])
+def authorize_code():
+    code, username = default_json("code", "username")
+
+    err, user_id = loginid_management.getUserId(username)
+    if type(err) is int:
+        return json_response(user_id, err)
+
+    '''
+    not the best way to do this but you can use a database to
+    store the code purpose to a user or obtain the purpose from the client
+    '''
+    err, _ = loginid_management.authorizeCode(
+        user_id,
+        code,
+        codeType="short",
+        codePurpose="temporary_authentication"
+    )
+    if err is None:
+        return "", HTTPStatus.NO_CONTENT
+
+    err, _ = loginid_management.authorizeCode(
+        user_id,
+        code,
+        codeType="short",
+        codePurpose="add_credential"
+    )
+    if err is None:
+        return "", HTTPStatus.NO_CONTENT
+
+    error_response = {"message": "Code could not be authorized"}
+    return json_response(error_response, HTTPStatus.BAD_REQUEST)

@@ -1,3 +1,5 @@
+import { codeTypes } from "../data/codesTypes";
+
 const request = async (url, options = {}) => {
   const { method = "POST", headers = {}, body = {} } = options;
   try {
@@ -57,5 +59,23 @@ export const createTx = async (txPayload, username) => {
 export const verifyTx = async (jwt, txPayload) => {
   return await request("/api/tx/verify", {
     body: { jwt, tx_payload: txPayload },
+  });
+};
+
+export const generateTemporaryCode = async (username) => {
+  return await request("/api/codes/generate", {
+    body: { purpose: codeTypes.TEMPORARY_AUTHENTICATION, username },
+  });
+};
+
+export const waitForAuthorizeCode = async (username, code) => {
+  return await request("/api/users/temporary", {
+    body: { username, code },
+  });
+};
+
+export const authorizeCode = async (username, code) => {
+  return await request("/api/codes/authorize", {
+    body: { username, code },
   });
 };

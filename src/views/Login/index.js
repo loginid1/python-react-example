@@ -51,6 +51,15 @@ const Login = function ({ username, handleUsername }) {
       alert(e.message);
     }
   };
+
+  const handleOneTimeAuthentication = () => {
+    history.push("/push");
+  };
+
+  const handleAuthorizeCode = () => {
+    history.push("/authorize");
+  };
+
   return (
     <Wrapper>
       <Image src={logoUrl} alt="Logo" />
@@ -62,6 +71,10 @@ const Login = function ({ username, handleUsername }) {
       />
       <Button onClick={handleRegister}>Register</Button>
       <Button onClick={handleLogin}>Login</Button>
+      <Button onClick={handleOneTimeAuthentication}>
+        One-Time Authentication
+      </Button>
+      <Button onClick={handleAuthorizeCode}>Authorize Code</Button>
     </Wrapper>
   );
 };

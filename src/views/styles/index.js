@@ -50,11 +50,16 @@ export const H2 = styled.h2`
 `;
 
 export const Message = styled.p`
-  width: content;
   padding: 10px 20px;
   text-align: center;
   margin-bottom: 1em;
   color: #036ef9;
   font-weight: bold;
   font-size: 1.2em;
+  ${(props) =>
+    props.noSpacing &&
+    `
+		padding: 0;
+		margin: 0;
+`}
 `;

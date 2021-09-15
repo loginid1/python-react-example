@@ -3,7 +3,7 @@ from flask_jwt_extended import JWTManager
 from flask_restful import Api
 from server.api.users import UserResource
 from server.api.logout import LogoutResource
-from server.api.loginid import TokensResource
+from server.api.loginid import loginid_blueprint
 
 def create_app():
     app = Flask(__name__)
@@ -14,11 +14,11 @@ def create_app():
     app.config["JWT_COOKIE_CSRF_PROTECT"] = True
     app.config["JWT_CSRF_IN_COOKIES"] = True
     app.config["JWT_SECRET_KEY"] = "loginid"
+    app.register_blueprint(loginid_blueprint)
     JWTManager(app)
 
     api = Api(app)
     api.add_resource(UserResource, "/api/users")
     api.add_resource(LogoutResource, "/api/logout")
-    api.add_resource(TokensResource, "/api/tokens/create")
 
     return app

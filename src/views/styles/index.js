@@ -1,8 +1,13 @@
 import styled from "styled-components";
 
-const sharedProps = `
+const maxWidth = `
   width: 100%;
   max-width: 250px;
+  padding: 10px 20px;
+`;
+
+const sharedProps = `
+  ${maxWidth}
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -42,4 +47,14 @@ export const Image = styled.img`
 
 export const H2 = styled.h2`
   margin-bottom: 3em;
+`;
+
+export const Message = styled.p`
+  width: content;
+  padding: 10px 20px;
+  text-align: center;
+  margin-bottom: 1em;
+  color: #036ef9;
+  font-weight: bold;
+  font-size: 1.2em;
 `;

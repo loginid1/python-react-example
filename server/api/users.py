@@ -2,6 +2,7 @@ from flask import request
 from flask_restful import Resource
 from datetime import timedelta
 from loginid import LoginID
+from http import HTTPStatus
 from server.helpers.api import json_response
 from server.config import BASE_URL, WEB_CLIENT_ID, PRIVATE_KEY
 from server.helpers.encodings import decoded_jwt
@@ -18,7 +19,7 @@ class UserResource(Resource):
     @jwt_required()
     def get(self):
         user = get_jwt_identity()
-        return json_response(user, 200)
+        return json_response(user, HTTPStatus.OK)
 
     def post(self):
         payload = request.get_json()
@@ -29,7 +30,7 @@ class UserResource(Resource):
 
         if jwt_is_valid is False:
             response_data = { "message": "Unauthorized" }
-            return json_response(response_data, 401)
+            return json_response(response_data, HTTPStatus.UNAUTHORIZED)
 
         _, token_payload = decoded_jwt(jwt, PRIVATE_KEY)
 
@@ -46,7 +47,7 @@ class UserResource(Resource):
             expires_delta=timedelta(days=1)
         )
 
-        response = json_response(user, 201)
+        response = json_response(user, HTTPStatus.OK)
 
         set_access_cookies(response, access_token)
 

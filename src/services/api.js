@@ -36,6 +36,26 @@ export const logoutUser = async () => {
   return await request("/api/logout");
 };
 
-export const createServiceToken = async (type, username) => {
-  return await request("/api/tokens/create", { body: { type, username } });
+export const createServiceToken = async (type, username, txPayload) => {
+  return await request("/api/token", {
+    body: { type, username, tx_payload: txPayload },
+  });
+};
+
+export const createTxServiceToken = async (txPayload, username) => {
+  return await request("/api/token", {
+    body: { username, tx_payload: txPayload },
+  });
+};
+
+export const createTx = async (txPayload, username) => {
+  return await request("/api/tx", {
+    body: { tx_payload: txPayload, username },
+  });
+};
+
+export const verifyTx = async (jwt, txPayload) => {
+  return await request("/api/tx/verify", {
+    body: { jwt, tx_payload: txPayload },
+  });
 };

@@ -12,16 +12,14 @@ A .env file is needed in the directory with the following:
 
 ```
 REACT_APP_BASE_URL=                  #This is the base url value found on the dashboard.
-REACT_APP_WEB_CLIENT_ID=             #This is a Web client ID (no credential).
+REACT_APP_WEB_CLIENT_ID=             #This is a Web client ID.
 MANAGEMENT_CLIENT_ID=                #This is a Backend client ID with a credential attached to it.
 PRIVATE_KEY=                         #This is the private key associated with <MANAGEMENT_CLIENT_ID>.
 ```
 
+If `REACT_APP_WEB_CLIENT_ID` is a private application(credential attached), make sure that it uses the same `PRIVATE_KEY` as `MANAGEMENT_CLIENT_ID`.
+
 ## How to Run
-
-### NOTE
-
-If you plan to run this project locally without docker, change the `proxy` property in `package.json` to `http://localhost:5000`.
 
 ```
 git clone https://github.com/loginid1/python-react-example.git

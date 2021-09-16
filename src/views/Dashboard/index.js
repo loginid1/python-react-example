@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import WebSDK from "@loginid/sdk";
 import * as uuid from "uuid";
-import { Wrapper, Button, H2, Input, Message } from "../styles/";
+import { Wrapper, Image, Button, H2, Input, Message } from "../styles/";
 import { env } from "../../utils/env";
 import {
   createTx,
@@ -13,6 +13,7 @@ import {
 
 const { baseUrl, webClientId } = env;
 const sdk = new WebSDK(baseUrl, webClientId);
+const logoUrl = process.env.PUBLIC_URL + "/imgs/loginid-logo.svg";
 
 const Dashboard = ({ user: { username } }) => {
   const [txPayload, setTxPayload] = useState("");
@@ -109,6 +110,7 @@ const Dashboard = ({ user: { username } }) => {
 
   return (
     <Wrapper>
+      <Image alt="Logo" src={logoUrl} />
       <H2>Welcome {username}</H2>
       {message && <Message>{message}</Message>}
       <Input

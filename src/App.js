@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "./views/Login/";
 import Dashboard from "./views/Dashboard/";
 import OneTime from "./views/OneTime/";
+import AddCredential from "./views/AddCredential/";
 import Authorize from "./views/Authorize/";
 import Private from "./components/PrivateRoute/";
 
@@ -20,6 +21,9 @@ function App() {
         </Route>
         <Route path="/push" exact>
           <OneTime />
+        </Route>
+        <Route path="/add_credential" exact>
+          <AddCredential />
         </Route>
         <Route path="/authorize" exact>
           <Authorize />

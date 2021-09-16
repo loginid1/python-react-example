@@ -68,6 +68,12 @@ export const generateTemporaryCode = async (username) => {
   });
 };
 
+export const generatePermanentCode = async (username) => {
+  return await request("/api/codes/generate", {
+    body: { purpose: codeTypes.ADD_CREDENTIAL, username },
+  });
+};
+
 export const waitForAuthorizeCode = async (username, code) => {
   return await request("/api/users/temporary", {
     body: { username, code },

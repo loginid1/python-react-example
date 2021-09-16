@@ -56,6 +56,10 @@ const Login = function ({ username, handleUsername }) {
     history.push("/push");
   };
 
+  const handleAddCredential = () => {
+    history.push("/add_credential");
+  };
+
   const handleAuthorizeCode = () => {
     history.push("/authorize");
   };
@@ -74,6 +78,7 @@ const Login = function ({ username, handleUsername }) {
       <Button onClick={handleOneTimeAuthentication}>
         One-Time Authentication
       </Button>
+      <Button onClick={handleAddCredential}>Add Credential</Button>
       <Button onClick={handleAuthorizeCode}>Authorize Code</Button>
     </Wrapper>
   );

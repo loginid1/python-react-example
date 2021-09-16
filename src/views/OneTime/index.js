@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Wrapper, Button, Input, Message } from "../styles/";
+import { Wrapper, Button, H2, Input, Message } from "../styles/";
 import { useCodeInterval } from "../../hooks/codes";
 import {
   generateTemporaryCode,
   waitForAuthorizeCode,
 } from "../../services/api";
 
-const initalMessage = "Make sure this is the device you want to login with.";
+const initalMessage = "";
 
 const OneTime = () => {
   const [username, setUsername] = useState("");
@@ -41,6 +41,7 @@ const OneTime = () => {
 
   return (
     <Wrapper>
+      <H2>One-Time Authentication</H2>
       {code && <Message noSpacing>Authorize this code: {code}</Message>}
       <Message>{message}</Message>
       <Input

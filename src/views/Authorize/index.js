@@ -1,7 +1,7 @@
 import { useState } from "react";
 import WebSDK from "@loginid/sdk";
 import { useHistory } from "react-router-dom";
-import { Wrapper, Button, Input, Message } from "../styles/";
+import { Wrapper, H2, Button, Input, Message } from "../styles/";
 import { env } from "../../utils/env";
 import { authorizeCode, createServiceToken } from "../../services/api";
 
@@ -51,6 +51,7 @@ const Authorize = () => {
 
   return (
     <Wrapper>
+      <H2>Authorize Code</H2>
       {message && <Message>{message}</Message>}
       <Input
         placeholder="Username"
